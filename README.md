@@ -2,6 +2,9 @@
 
 This is a Quiz relating to Web Development and Coding Fundamentals
 
+<img width="1310" alt="screeshot" src="https://user-images.githubusercontent.com/96030343/148157627-6ade3ab5-f209-4b58-bf76-386d3308d256.png">
+
+
 ## How It Works
 
 When the Web Page opens, the user sees the Title, instructions, and a Button. The Button starts the game.
