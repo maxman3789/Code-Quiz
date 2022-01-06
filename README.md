@@ -2,6 +2,7 @@
 
 This is a Quiz relating to Web Development and Coding Fundamentals
 
+<img width="1310" alt="screeshot" src="https://user-images.githubusercontent.com/96030343/148316169-4c893a91-048e-4338-8eda-691746cb719f.png">
 
 
 ## How It Works
