@@ -39,7 +39,7 @@ var incorrect = 10;
 
 // Variable - Query Selectors
 var currentTime = document.querySelector("#currentTime");
-var timer = document.querySelector("#startTime");
+var timer = document.querySelector("#startTimer");
 var questionsquery = document.querySelector("#questions");
 
 // Creates new element as a list
