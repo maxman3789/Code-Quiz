@@ -31,8 +31,11 @@ header nav ul li {
     margin-left: 25%;
 }
 
-.ins {
-
+div#display {
+    background-color: #000000;
+padding: 3px 5px;
+color: #ffffff;
+font-size: large;
 }
 
 .btn-start {
@@ -211,10 +214,6 @@ header nav ul li {
 
 #submit-button:active {
     color:#190842;
-}
-
-.boldy {
-    font-weight: bolder;
 }
 
 
