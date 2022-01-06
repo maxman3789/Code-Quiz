@@ -21,7 +21,9 @@ if (saveScore !== null) {
     for (var i = 0; i < saveScore.length; i++) {
 
         var createListItem = document.createElement("li");
-        createListItem.textContent = saveScore[i].initials + " " + saveScore[i].score;
+
+        createListItem.innerHTML = saveScore[i].initials + " - " + saveScore[i].score;
+
         scoreArea.appendChild(createListItem);
 
     }
