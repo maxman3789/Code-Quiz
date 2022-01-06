@@ -32,10 +32,10 @@ var questions = [
 
 // Variables
 var score = 0;
-var questionIndex = 0;
-var secondsLeft = 100;
-var holdInterval = 0;
-var penalty = 10;
+var questionIdx = 0;
+var seconds = 100;
+var interval = 0;
+var incorrect = 10;
 
 // Variable - Query Selectors
 var currentTime = document.querySelector("#currentTime");
@@ -43,43 +43,47 @@ var timer = document.querySelector("#startTime");
 var questionsquery = document.querySelector("#questions");
 
 // Creates new element as a list
+//https://stackoverflow.com/questions/11351135/create-ul-and-li-elements-in-javascript
 var newul = document.createElement("ul");
 
+// https://www.w3schools.com/howto/howto_js_countdown.asp
 // Button has a timer countdown when clicked
 timer.addEventListener("click", function () {
+// setInterval and clearInterval https://developer.mozilla.org/en-US/docs/Web/API/setInterval
+    if (interval === 0) {
+        interval = setInterval(function () {
+            seconds--;
+            currentTime.textContent = "Time: " + seconds;
 
-    if (holdInterval === 0) {
-        holdInterval = setInterval(function () {
-            secondsLeft--;
-            currentTime.textContent = "Time: " + secondsLeft;
-
-            if (secondsLeft <= 0) {
-                clearInterval(holdInterval);
+            if (seconds <= 0) {
+                clearInterval(interval);
                 endQuiz();
                 currentTime.textContent = "Out of time!";
             }
         }, 1000);
     }
-    render(questionIndex);
+    show(questionIdx);
 });
 
-// Renders questions and choices to page: 
-function render(questionIndex) {
+// shows the questions and possible answers on page 
+function show(questionIdx) {
 
-    // Clears existing data 
+    // Blank data 
     questionsquery.innerHTML = "";
     newul.innerHTML = "";
     
-    // For loops to loop through all info from 'questions' in array
+    // For loop to check text from 'questions' in array
     for (var i = 0; i < questions.length; i++) {
-        // Appends question title 
-        var userQuestion = questions[questionIndex].title;
-        var userChoices = questions[questionIndex].choices;
-        questionsquery.textContent = userQuestion;
+
+        // Appends question 
+        var createQuestion = questions[questionIdx].title;
+        var createAnswer = questions[questionIdx].choices;
+        questionsquery.textContent = createQuestion;
     }
     
-    // New for each for question choices
-    userChoices.forEach(function (newItem) {
+    // appends answers and creates list items
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+    createAnswer.forEach(function (newItem) {
         var listItem = document.createElement("li");
         listItem.textContent = newItem;
         questionsquery.appendChild(newul);
@@ -89,38 +93,39 @@ function render(questionIndex) {
 }
 
 // Event to compare choices with answer
+// .match for this function https://developer.mozilla.org/en-US/docs/Web/API/Element/matches
+// https://www.tutorialrepublic.com/javascript-tutorial/javascript-regular-expressions.php
 function compare(event) {
     var element = event.target;
 
     if (element.matches("li")) {
 
         // creates Div element for displaying correct and incorrect answers
-        var create = document.createElement("div");
-        create.setAttribute("id", "create");
-        // Correct condition 
-        if (element.textContent == questions[questionIndex].answer) {
+        var display = document.createElement("div");
+        display.setAttribute("id", "display");
+
+        // correct answer text 
+        if (element.textContent == questions[questionIdx].answer) {
             score++;
-            create.textContent = "Correct! The answer is:  " + questions[questionIndex].answer;
+            display.textContent = "Correct!";
 
         } else {
-            // Deducts time for incorrect answers
-            secondsLeft = secondsLeft - penalty;
-            create.textContent = "Incorrect! The correct answer is:  " + questions[questionIndex].answer;
+            // Deducts time for incorrect answers and says correct answer
+            seconds = seconds - incorrect;
+            display.textContent = "Incorrect! The correct answer is:  " + questions[questionIdx].answer;
         }
 
-    }
+    } 
+    questionIdx++;
 
-    // Question Index determines which question is presented
-    questionIndex++;
-
-    if (questionIndex >= questions.length) {
-        // All done will append last page with user stats
+    if (questionIdx >= questions.length) {
+        // endQuiz displays user's score
         endQuiz();
-        create.textContent = "End of quiz!" + " " + "You got  " + score + "/" + questions.length + " Correct!";
+        display.textContent = "You got  " + score + "/" + questions.length + " correct!";
     } else {
-        render(questionIndex);
+        show(questionIdx);
     }
-    questionsquery.appendChild(create);
+    questionsquery.appendChild(display);
 
 }
 
@@ -132,74 +137,81 @@ function endQuiz() {
     // Create a message for when it is Done
     var headone = document.createElement("h1");
     headone.setAttribute("id", "headone");
-    headone.textContent = "All Done!"
+    headone.textContent = "You're Finished!"
 
     questionsquery.appendChild(headone);
 
     // Create message for Final Score
+    var pmessage = document.createElement("p");
+    pmessage.setAttribute("id", "pmessage");
+
+    questionsquery.appendChild(pmessage);
+
     var pscore = document.createElement("p");
     pscore.setAttribute("id", "pscore");
 
     questionsquery.appendChild(pscore);
 
     // Calculates time remaining and replaces it with score
-    if (secondsLeft >= 0) {
-        var timeRemaining = secondsLeft;
-        clearInterval(holdInterval);
-        pscore.textContent = "Your Score is: " + timeRemaining;
+    if (seconds >= 0) {
+        var remainder = seconds;
+        clearInterval(interval);
+        pmessage.textContent = "Your Score is: ";
+        pscore.textContent = remainder;
 
     }
 
-    // Create Label
-    var createLabel = document.createElement("label");
-    createLabel.setAttribute("id", "createLabel");
-    createLabel.textContent = "Enter your initials: ";
+    // Creates label
+    var labelField = document.createElement("label");
+    labelField.setAttribute("id", "labelField");
+    labelField.textContent = "Enter your initials: ";
 
-    questionsquery.appendChild(createLabel);
+    questionsquery.appendChild(labelField);
 
-    // Create input field
-    var createInput = document.createElement("input");
-    createInput.setAttribute("type", "text");
-    createInput.setAttribute("id", "initials");
-    createInput.textContent = "";
+    // Creates input field
+    var inputBox = document.createElement("input");
+    inputBox.setAttribute("type", "text");
+    inputBox.setAttribute("id", "initials");
+    inputBox.textContent = "";
 
-    questionsquery.appendChild(createInput);
+    questionsquery.appendChild(inputBox);
 
-    // Create Submit Button
-    var createSubmit = document.createElement("button");
-    createSubmit.setAttribute("type", "submit");
-    createSubmit.setAttribute("id", "Submit");
-    createSubmit.textContent = "Submit";
+    // Creates Submit Button
+    var submit = document.createElement("button");
+    submit.setAttribute("type", "submit");
+    submit.setAttribute("id", "submit-button");
+    submit.textContent = "Submit";
 
-    questionsquery.appendChild(createSubmit);
+    questionsquery.appendChild(submit);
 
     // Event listener for entering and saving initials and scores
-    createSubmit.addEventListener("click", function () {
-        var initials = createInput.value;
+    submit.addEventListener("click", function () {
+        var initials = inputBox.value;
 
         if (initials === null) {
 
-            console.log("No value");
+            console.log("Nothing");
 
         } else {
             var finalScore = {
                 initials: initials,
-                score: timeRemaining
-            }
-            console.log(finalScore);
-            var allScores = localStorage.getItem("allScores");
-            if (allScores === null) {
-                allScores = [];
-            } else {
-                allScores = JSON.parse(allScores);
-            }
-            allScores.push(finalScore);
-            var newScore = JSON.stringify(allScores);
-            localStorage.setItem("allScores", newScore);
+                score: remainder
+            }      
             
-            // Redirects to score
+            var saveScore = localStorage.getItem("saveScore");
+            if (saveScore === null) {
+                saveScore = [];
+            } else {
+                saveScore = JSON.parse(saveScore);
+            }
+            saveScore.push(finalScore);
+            var newScore = JSON.stringify(saveScore);
+            localStorage.setItem("saveScore", newScore);
+            
+            // Redirects to score page
+            // https://stackoverflow.com/questions/38338144/how-can-i-make-a-button-redirect-my-page-to-another-page-using-addeventlistener
  
-            if (allScores) {
+            if (saveScore) {
                 window.location.replace("scores.html");
             }
         }

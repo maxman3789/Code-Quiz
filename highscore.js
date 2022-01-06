@@ -1,26 +1,28 @@
 
 // query selectors
-var highScore = document.querySelector("#highScore");
+var scoreArea = document.querySelector("#scoreArea");
 var clear = document.querySelector("#clear");
 var back = document.querySelector("#back");
 
 // Reset Scores 
+// clears Local Storage https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear
 clear.addEventListener("click", function () {
     localStorage.clear();
     location.reload();
 });
 
-// Retrieves local stroage 
-var allScores = localStorage.getItem("allScores");
-allScores = JSON.parse(allScores);
+// Retrieves saved scores from local stroage 
+var saveScore = localStorage.getItem("saveScore");
+saveScore = JSON.parse(saveScore);
 
-if (allScores !== null) {
+if (saveScore !== null) {
 
-    for (var i = 0; i < allScores.length; i++) {
+    // For Loop to generate saved text and scores
+    for (var i = 0; i < saveScore.length; i++) {
 
         var createListItem = document.createElement("li");
-        createListItem.textContent = allScores[i].initials + " " + allScores[i].score;
-        highScore.appendChild(createListItem);
+        createListItem.textContent = saveScore[i].initials + " " + saveScore[i].score;
+        scoreArea.appendChild(createListItem);
 
     }
 }

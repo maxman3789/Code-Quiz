@@ -168,6 +168,52 @@ header nav ul li {
     font-size: large;
 }
 
+#pmessage {
+    font-size: 20px;
+
+}
+
+#pscore {
+    font-weight: bolder;
+    color: red;
+    font-size: 20px;
+}
+
+#labelField {
+    font-weight: bolder;
+}
+
+#initials {
+    border: 1px dashed black;
+}
+
+#submit-button {
+    display:inline-block;
+    padding:.5em 2em;
+    border:0.16em solid #FFFFFF;
+    margin:0 0.3em 0.3em 2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    text-transform:uppercase;
+    font-family:'Roboto',sans-serif;
+    font-weight:400;
+    color:#FFFFFF;
+    text-align:center;
+    transition: all 0.15s;
+    background-color: teal;
+    font-size: medium;
+}
+
+#submit-button:hover {
+    color:#000000;
+    border-color:#DDDDDD;
+}
+
+#submit-button:active {
+    color:#190842;
+}
+
+
 footer {
     padding: 20px;
     clear: both;
